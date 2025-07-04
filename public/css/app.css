@@ -201,3 +201,16 @@ table.table td {
     color: #8a1f1f;
     font-size: 0.85rem;
 }
+
+.qty-input {
+    width: 64px;
+    padding: 0.35rem;
+}
+
+.inline-form,
+.add-to-cart {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    margin: 0;
+}
