@@ -6,7 +6,8 @@ services:
         volumes:
             - ./:/var/www/app:cached
         depends_on:
-            - database
+            database:
+                condition: service_healthy
         env_file:
             - .env
 
