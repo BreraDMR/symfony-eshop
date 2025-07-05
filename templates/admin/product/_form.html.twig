@@ -1,0 +1,13 @@
+<div class="checkout-form" style="max-width:520px">
+    {{ form_start(form) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.slug) }}
+        {{ form_row(form.category) }}
+        {{ form_row(form.price) }}
+        {{ form_row(form.stock) }}
+        {{ form_row(form.description) }}
+        {{ form_row(form.active) }}
+        <button type="submit" class="btn">{{ button_label|default('Save') }}</button>
+        <a class="btn btn-secondary" href="{{ path('app_admin_product_index') }}">Cancel</a>
+    {{ form_end(form) }}
+</div>

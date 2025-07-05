@@ -1,0 +1,8 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Edit {{ product.name }} — Admin{% endblock %}
+
+{% block admin_body %}
+    <h1>Edit product</h1>
+    {{ include('admin/product/_form.html.twig', { button_label: 'Save changes' }) }}
+{% endblock %}

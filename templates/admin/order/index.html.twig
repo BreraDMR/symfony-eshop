@@ -1,0 +1,28 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Orders — Admin{% endblock %}
+
+{% block admin_body %}
+    <h1>Orders</h1>
+
+    {% if orders is empty %}
+        <p class="text-muted">No orders yet.</p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr><th>Reference</th><th>Customer</th><th>Status</th><th>Total</th><th>Date</th></tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <td><a href="{{ path('app_admin_order_show', { id: order.id }) }}">{{ order.reference }}</a></td>
+                        <td>{{ order.customerName }}<br><span class="text-muted">{{ order.customerEmail }}</span></td>
+                        <td><span class="badge badge-{{ order.status.value }}">{{ order.status.label }}</span></td>
+                        <td>{{ order.total|money }}</td>
+                        <td>{{ order.createdAt|date('d.m.Y H:i') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}
