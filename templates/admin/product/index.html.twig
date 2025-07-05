@@ -10,11 +10,16 @@
 
     <table class="table">
         <thead>
-            <tr><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Active</th><th></th></tr>
+            <tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Active</th><th></th></tr>
         </thead>
         <tbody>
             {% for product in products %}
                 <tr>
+                    <td>
+                        {% if product.imageFilename %}
+                            <img class="admin-thumb" src="{{ asset('images/products/' ~ product.imageFilename) }}" alt="">
+                        {% endif %}
+                    </td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.category.name }}</td>
                     <td>{{ product.price|money }}</td>

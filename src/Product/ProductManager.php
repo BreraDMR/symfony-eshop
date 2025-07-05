@@ -15,8 +15,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
  */
 class ProductManager
 {
-    public function __construct(private readonly SluggerInterface $slugger)
-    {
+    public function __construct(
+        private readonly SluggerInterface $slugger,
+        private readonly ImageUploader $imageUploader,
+    ) {
     }
 
     public function create(ProductFormData $data): Product
@@ -48,6 +50,10 @@ class ProductManager
         $product->setDescription($data->description);
         $product->setStock($data->stock);
         $product->setActive($data->active);
+
+        if ($data->imageFile !== null) {
+            $product->setImageFilename($this->imageUploader->upload($data->imageFile));
+        }
     }
 
     private function resolveSlug(ProductFormData $data): string

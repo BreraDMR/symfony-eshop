@@ -357,3 +357,49 @@ table.table td {
         grid-template-columns: 1fr;
     }
 }
+
+/* --- Product images --- */
+.product-thumb {
+    display: block;
+    aspect-ratio: 3 / 2;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #f1ece4;
+    margin-bottom: 0.6rem;
+}
+
+.product-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.2s ease;
+}
+
+.product-thumb:hover img {
+    transform: scale(1.03);
+}
+
+.product-thumb-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 2.5rem;
+}
+
+.product-detail-image {
+    width: 100%;
+    max-width: 640px;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.admin-thumb {
+    width: 56px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+}

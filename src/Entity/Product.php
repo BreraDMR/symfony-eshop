@@ -36,6 +36,9 @@ class Product
     #[ORM\Column]
     private bool $active = true;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $imageFilename = null;
+
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     private Category $category;
@@ -133,6 +136,16 @@ class Product
     public function setActive(bool $active): void
     {
         $this->active = $active;
+    }
+
+    public function getImageFilename(): ?string
+    {
+        return $this->imageFilename;
+    }
+
+    public function setImageFilename(?string $imageFilename): void
+    {
+        $this->imageFilename = $imageFilename;
     }
 
     public function getCategory(): Category
