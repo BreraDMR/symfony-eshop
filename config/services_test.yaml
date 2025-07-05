@@ -1,0 +1,6 @@
+services:
+    # Store uploaded images in a throwaway directory during tests.
+    App\Product\ImageUploader:
+        autowire: true
+        arguments:
+            $targetDirectory: '%kernel.project_dir%/var/test-uploads'
