@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Thank you — Beans &amp; Leaves{% endblock %}
+
+{% block body %}
+    <div class="payment-box">
+        {% if order.status.isPaid %}
+            <h1>Thank you for your order!</h1>
+            <p>Your order <strong>{{ order.reference }}</strong> has been paid.</p>
+            <p class="text-muted">A confirmation email has been sent to {{ order.customerEmail }}.</p>
+        {% else %}
+            <h1>Order received</h1>
+            <p>Your order <strong>{{ order.reference }}</strong> is awaiting payment confirmation.</p>
+        {% endif %}
+
+        <table class="table" style="margin-top:1.5rem">
+            <tbody>
+                {% for item in order.items %}
+                    <tr>
+                        <td>{{ item.productName }} &times; {{ item.quantity }}</td>
+                        <td>{{ item.subtotal|money }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th>{{ order.total|money }}</th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <p style="margin-top:1.5rem"><a class="btn" href="{{ path('app_catalog_index') }}">Back to shop</a></p>
+    </div>
+{% endblock %}

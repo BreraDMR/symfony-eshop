@@ -48,4 +48,16 @@ class StripePaymentGateway implements PaymentGatewayInterface
 
         return new PaymentInitiation($session->url, $session->id);
     }
+
+    /**
+     * Reconciles a checkout session on return from Stripe: returns true if the
+     * session has been paid.
+     */
+    public function isSessionPaid(string $sessionId): bool
+    {
+        $stripe = new StripeClient($this->secretKey);
+        $session = $stripe->checkout->sessions->retrieve($sessionId);
+
+        return $session->payment_status === 'paid';
+    }
 }
