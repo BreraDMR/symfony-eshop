@@ -13,3 +13,8 @@
 /phpunit.xml
 /.phpunit.cache/
 ###< phpunit/phpunit ###
+
+###> app/spa ###
+# Built React storefront (run: cd frontend && npm run build).
+/public/spa/
+###< app/spa ###
