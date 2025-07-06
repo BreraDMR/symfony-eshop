@@ -55,6 +55,12 @@ jobs:
             - name: Install dependencies
               run: composer install --no-interaction --no-progress --prefer-dist
 
+            - name: Warm up the cache
+              run: php bin/console cache:warmup
+
+            - name: Static analysis (PHPStan)
+              run: vendor/bin/phpstan analyse --no-progress
+
             - name: Create the test database
               run: php bin/console doctrine:database:create --if-not-exists --no-interaction --env=test
 
