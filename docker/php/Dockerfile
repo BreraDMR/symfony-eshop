@@ -5,6 +5,7 @@ FROM php:8.4-fpm-bookworm
 COPY --from=mlocati/php-extension-installer:latest /usr/bin/install-php-extensions /usr/local/bin/
 
 RUN install-php-extensions \
+        amqp \
         pdo_pgsql \
         intl \
         opcache \
