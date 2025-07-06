@@ -57,9 +57,19 @@ class ProductIndexer
 
     public function remove(Product $product): void
     {
+        $this->removeById((string) $product->getId());
+    }
+
+    /**
+     * Removes a document by id. Doctrine clears an entity's identifier by the
+     * time postRemove runs, so callers there must pass the id they captured
+     * earlier rather than reading it off a detached entity.
+     */
+    public function removeById(string $id): void
+    {
         $this->client->delete([
             'index' => self::INDEX,
-            'id' => (string) $product->getId(),
+            'id' => $id,
         ]);
     }
 

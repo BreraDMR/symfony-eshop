@@ -32,6 +32,11 @@ services:
         arguments:
             $endpoint: '%env(ELASTICSEARCH_URL)%'
 
+    # Live indexing is turned off in tests so they stay independent of ES.
+    App\Search\ProductSearchSubscriber:
+        arguments:
+            $enabled: '%env(bool:SEARCH_INDEXING_ENABLED)%'
+
     App\Payment\StripePaymentGateway:
         arguments:
             $secretKey: '%env(STRIPE_SECRET_KEY)%'
