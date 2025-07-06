@@ -60,7 +60,11 @@ class ProductRepository extends ServiceEntityRepository
 
     private function activeQueryBuilder(): QueryBuilder
     {
+        // Fetch the category in the same query: the storefront always renders
+        // it, and it keeps the result self-contained when cached in Redis.
         return $this->createQueryBuilder('p')
+            ->addSelect('c')
+            ->join('p.category', 'c')
             ->andWhere('p.active = true')
             ->orderBy('p.name', 'ASC');
     }
