@@ -3,7 +3,7 @@
 {% block title %}{{ product.name }} — Beans &amp; Leaves{% endblock %}
 
 {% block body %}
-    <p><a href="{{ path('app_catalog_index') }}">&larr; Back to shop</a></p>
+    <p><a class="back-link" href="{{ path('app_catalog_index') }}"><span class="back-arrow" aria-hidden="true">&larr;</span> Back to shop</a></p>
 
     <div class="product-detail">
         {% if product.imageFilename %}
