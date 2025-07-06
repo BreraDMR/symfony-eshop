@@ -26,6 +26,12 @@ services:
         arguments:
             $targetDirectory: '%kernel.project_dir%/public/images/products'
 
+    # Shared Elasticsearch client, built from the configured endpoint.
+    Elastic\Elasticsearch\Client:
+        factory: ['App\Search\ElasticClientFactory', 'create']
+        arguments:
+            $endpoint: '%env(ELASTICSEARCH_URL)%'
+
     App\Payment\StripePaymentGateway:
         arguments:
             $secretKey: '%env(STRIPE_SECRET_KEY)%'
