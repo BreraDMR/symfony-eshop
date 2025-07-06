@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Catalog\ProductCatalog;
 use App\Repository\CategoryRepository;
-use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,7 @@ class CatalogController extends AbstractController
     #[Route('/', name: 'app_catalog_index', methods: ['GET'])]
     public function index(
         Request $request,
-        ProductRepository $products,
+        ProductCatalog $catalog,
         CategoryRepository $categories,
     ): Response {
         $categorySlug = $request->query->get('category');
@@ -24,15 +24,15 @@ class CatalogController extends AbstractController
 
         return $this->render('catalog/index.html.twig', [
             'categories' => $categories->findAllOrderedByName(),
-            'products' => $products->findActive($activeCategory),
+            'products' => $catalog->activeProducts($activeCategory),
             'activeCategory' => $activeCategory,
         ]);
     }
 
     #[Route('/product/{slug}', name: 'app_catalog_product', methods: ['GET'])]
-    public function show(string $slug, ProductRepository $products): Response
+    public function show(string $slug, ProductCatalog $catalog): Response
     {
-        $product = $products->findOneActiveBySlug($slug);
+        $product = $catalog->activeProductBySlug($slug);
 
         if ($product === null) {
             throw $this->createNotFoundException('Product not found.');
