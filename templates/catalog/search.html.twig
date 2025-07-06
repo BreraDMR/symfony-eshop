@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search{% if query %} — {{ query }}{% endif %}{% endblock %}
+
+{% block body %}
+    <h1>Search</h1>
+
+    <form class="search-form" method="get" action="{{ path('app_catalog_search') }}" role="search">
+        <input type="search" name="q" value="{{ query }}" placeholder="Search products…" aria-label="Search products">
+        <button class="btn" type="submit">Search</button>
+    </form>
+
+    {% if query is empty %}
+        <p class="text-muted">Type something to search the catalog.</p>
+    {% elseif products is empty %}
+        <p class="text-muted">No products match “{{ query }}”.</p>
+    {% else %}
+        <p class="text-muted">{{ products|length }} result(s) for “{{ query }}”.</p>
+        {{ include('catalog/_product_grid.html.twig') }}
+    {% endif %}
+
+    <p><a href="{{ path('app_catalog_index') }}">&larr; Back to shop</a></p>
+{% endblock %}

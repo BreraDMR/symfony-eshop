@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Catalog\ProductCatalog;
 use App\Repository\CategoryRepository;
+use App\Search\ProductSearch;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,6 +27,17 @@ class CatalogController extends AbstractController
             'categories' => $categories->findAllOrderedByName(),
             'products' => $catalog->activeProducts($activeCategory),
             'activeCategory' => $activeCategory,
+        ]);
+    }
+
+    #[Route('/search', name: 'app_catalog_search', methods: ['GET'])]
+    public function search(Request $request, ProductSearch $search): Response
+    {
+        $query = trim((string) $request->query->get('q', ''));
+
+        return $this->render('catalog/search.html.twig', [
+            'products' => $search->search($query),
+            'query' => $query,
         ]);
     }
 

@@ -5,6 +5,11 @@
 {% block body %}
     <h1>Our coffee &amp; tea</h1>
 
+    <form class="search-form" method="get" action="{{ path('app_catalog_search') }}" role="search">
+        <input type="search" name="q" placeholder="Search products…" aria-label="Search products">
+        <button class="btn" type="submit">Search</button>
+    </form>
+
     <div class="category-filter">
         <a href="{{ path('app_catalog_index') }}" class="{{ activeCategory is null ? 'active' }}">All</a>
         {% for category in categories %}
@@ -18,26 +23,6 @@
     {% if products is empty %}
         <p class="text-muted">No products in this category yet.</p>
     {% else %}
-        <div class="product-grid">
-            {% for product in products %}
-                <div class="product-card">
-                    <a class="product-thumb" href="{{ path('app_catalog_product', { slug: product.slug }) }}">
-                        {% if product.imageFilename %}
-                            <img src="{{ asset('images/products/' ~ product.imageFilename) }}" alt="{{ product.name }}" loading="lazy">
-                        {% else %}
-                            <span class="product-thumb-placeholder">☕</span>
-                        {% endif %}
-                    </a>
-                    <h3><a href="{{ path('app_catalog_product', { slug: product.slug }) }}">{{ product.name }}</a></h3>
-                    <span class="muted">{{ product.category.name }}</span>
-                    <span class="price">{{ product.price|money }}</span>
-                    {% if product.inStock %}
-                        <a class="btn" href="{{ path('app_catalog_product', { slug: product.slug }) }}">View</a>
-                    {% else %}
-                        <span class="out-of-stock">Out of stock</span>
-                    {% endif %}
-                </div>
-            {% endfor %}
-        </div>
+        {{ include('catalog/_product_grid.html.twig') }}
     {% endif %}
 {% endblock %}
