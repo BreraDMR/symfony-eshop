@@ -67,9 +67,37 @@ a:hover {
     color: var(--text);
 }
 
+.header-search {
+    flex: 1 1 auto;
+    max-width: 360px;
+    margin: 0 1.25rem;
+}
+
+.header-search input[type="search"] {
+    width: 100%;
+}
+
+.main-nav {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
 .main-nav a {
     margin-left: 1.25rem;
     color: var(--text);
+}
+
+@media (max-width: 640px) {
+    .header-inner {
+        flex-wrap: wrap;
+    }
+
+    .header-search {
+        order: 3;
+        flex-basis: 100%;
+        max-width: none;
+        margin: 0.75rem 0 0;
+    }
 }
 
 main.container {
@@ -442,13 +470,3 @@ textarea::placeholder {
     color: var(--muted);
 }
 
-.search-form {
-    display: flex;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.search-form input[type="search"] {
-    flex: 1 1 auto;
-    max-width: 360px;
-}

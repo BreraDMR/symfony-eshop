@@ -5,11 +5,6 @@
 {% block body %}
     <h1>Our coffee &amp; tea</h1>
 
-    <form class="search-form" method="get" action="{{ path('app_catalog_search') }}" role="search">
-        <input type="search" name="q" placeholder="Search products…" aria-label="Search products">
-        <button class="btn" type="submit">Search</button>
-    </form>
-
     <div class="category-filter">
         <a href="{{ path('app_catalog_index') }}" class="{{ activeCategory is null ? 'active' }}">All</a>
         {% for category in categories %}
