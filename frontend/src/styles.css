@@ -2,6 +2,30 @@
     color-scheme: light dark;
     font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
     line-height: 1.5;
+
+    --bg: #faf8f5;
+    --text: #2b2620;
+    --muted: #7a7268;
+    --accent: #8a5a2b;
+    --border: #e7e0d6;
+    --card: #ffffff;
+    --thumb: #f2ece3;
+    --stock: #3f7d52;
+    --error: #b0453b;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #17130f;
+        --text: #ece5db;
+        --muted: #a89e90;
+        --accent: #cf8f52;
+        --border: #37302a;
+        --card: #221c17;
+        --thumb: #2c241d;
+        --stock: #7bbf8f;
+        --error: #e08a80;
+    }
 }
 
 * {
@@ -10,8 +34,8 @@
 
 body {
     margin: 0;
-    background: #faf7f2;
-    color: #2b2622;
+    background: var(--bg);
+    color: var(--text);
 }
 
 .app {
@@ -38,10 +62,15 @@ body {
     flex: 1 1 240px;
     max-width: 320px;
     padding: 0.55rem 0.75rem;
-    border: 1px solid #d8cfc2;
+    border: 1px solid var(--border);
     border-radius: 8px;
     font-size: 1rem;
-    background: #fff;
+    background: var(--card);
+    color: var(--text);
+}
+
+.app__search::placeholder {
+    color: var(--muted);
 }
 
 .filter {
@@ -53,17 +82,17 @@ body {
 
 .filter__item {
     padding: 0.4rem 0.9rem;
-    border: 1px solid #d8cfc2;
+    border: 1px solid var(--border);
     border-radius: 999px;
-    background: #fff;
-    color: inherit;
+    background: var(--card);
+    color: var(--text);
     cursor: pointer;
     font-size: 0.9rem;
 }
 
 .filter__item--active {
-    background: #6f4e37;
-    border-color: #6f4e37;
+    background: var(--accent);
+    border-color: var(--accent);
     color: #fff;
 }
 
@@ -81,8 +110,8 @@ body {
 .card {
     display: flex;
     flex-direction: column;
-    background: #fff;
-    border: 1px solid #ece5da;
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 0.75rem;
 }
@@ -94,7 +123,7 @@ body {
     justify-content: center;
     overflow: hidden;
     border-radius: 8px;
-    background: #f2ece3;
+    background: var(--thumb);
     margin-bottom: 0.6rem;
 }
 
@@ -115,7 +144,7 @@ body {
 
 .card__category {
     margin: 0;
-    color: #8a7d6d;
+    color: var(--muted);
     font-size: 0.85rem;
 }
 
@@ -126,27 +155,27 @@ body {
 
 .card__stock {
     font-size: 0.8rem;
-    color: #3f7d52;
+    color: var(--stock);
 }
 
 .card__stock--out {
-    color: #b0453b;
+    color: var(--error);
 }
 
 .notice {
     padding: 0.75rem 0;
-    color: #8a7d6d;
+    color: var(--muted);
 }
 
 .notice--error {
-    color: #b0453b;
+    color: var(--error);
 }
 
 .app__note {
     margin-top: 2.5rem;
     padding-top: 1.25rem;
-    border-top: 1px solid #e3d9cb;
-    color: #8a7d6d;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
     font-size: 0.9rem;
 }
 
@@ -155,8 +184,7 @@ body {
 }
 
 .app__note code {
-    background: rgba(111, 78, 55, 0.12);
+    background: rgba(138, 90, 43, 0.15);
     padding: 0.05rem 0.35rem;
     border-radius: 4px;
 }
-
