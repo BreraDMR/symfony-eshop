@@ -98,12 +98,22 @@ a:hover {
         max-width: none;
         margin: 0.75rem 0 0;
     }
+
+    main.container {
+        padding-top: 1.25rem;
+    }
 }
 
 main.container {
     padding-top: 2rem;
     padding-bottom: 3rem;
     min-height: 60vh;
+}
+
+/* The page already has breathing room from the header via padding-top; the
+   first heading/paragraph's own top margin would double that gap. */
+main.container > :first-child {
+    margin-top: 0;
 }
 
 .site-footer {
