@@ -1,4 +1,6 @@
 {
+    "name": "breradmr/symfony-eshop",
+    "description": "Symfony e-shop with a catalogue, checkout, admin, Redis cache, RabbitMQ email, Elasticsearch search and a React storefront.",
     "type": "project",
     "license": "proprietary",
     "minimum-stability": "stable",
