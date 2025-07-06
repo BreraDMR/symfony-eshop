@@ -8,6 +8,7 @@ RUN install-php-extensions \
         pdo_pgsql \
         intl \
         opcache \
+        redis \
         zip
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
