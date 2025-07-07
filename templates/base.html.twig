@@ -21,7 +21,7 @@
                 <nav class="main-nav">
                     <a href="{{ path('app_catalog_index') }}">Shop</a>
                     <a href="/spa/">React demo</a>
-                    <a href="{{ path('app_cart_show') }}">Cart ({{ cart_item_count() }})</a>
+                    <a href="{{ path('app_cart_show') }}">Cart (<span data-cart-count>{{ cart_item_count() }}</span>)</a>
                     {% block nav_extra %}{% endblock %}
                 </nav>
             </div>
