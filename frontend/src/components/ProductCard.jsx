@@ -1,6 +1,6 @@
 export default function ProductCard({ product }) {
     return (
-        <article className="card">
+        <a className="card" href={`#/product/${product.slug}`}>
             <div className="card__thumb">
                 {product.image ? (
                     <img src={product.image} alt={product.name} loading="lazy" />
@@ -16,6 +16,6 @@ export default function ProductCard({ product }) {
             ) : (
                 <span className="card__stock card__stock--out">Out of stock</span>
             )}
-        </article>
+        </a>
     )
 }
