@@ -1,6 +1,19 @@
-# Beans & Leaves — Symfony e-shop
+<div align="center">
+
+# ☕ Beans & Leaves — Symfony e-shop
+
+**A complete coffee & tea shop: catalogue, cart, checkout with a pluggable payment gateway, admin area, Redis cache, RabbitMQ mail, Elasticsearch search and a React storefront.**
 
 [![CI](https://github.com/BreraDMR/symfony-eshop/actions/workflows/ci.yml/badge.svg)](https://github.com/BreraDMR/symfony-eshop/actions/workflows/ci.yml)
+[![Symfony](https://img.shields.io/badge/Symfony-7.4-000000?logo=symfony&logoColor=white&style=for-the-badge)](composer.json)
+[![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?logo=php&logoColor=white&style=for-the-badge)](composer.json)
+[![Doctrine](https://img.shields.io/badge/Doctrine-ORM-FC6A31?style=for-the-badge)](composer.json)
+[![Redis](https://img.shields.io/badge/Redis-cache-DC382D?logo=redis&logoColor=white&style=for-the-badge)](compose.yaml)
+[![RabbitMQ](https://img.shields.io/badge/RabbitMQ-async%20mail-FF6600?logo=rabbitmq&logoColor=white&style=for-the-badge)](compose.yaml)
+[![Elasticsearch](https://img.shields.io/badge/Elasticsearch-search-005571?logo=elasticsearch&logoColor=white&style=for-the-badge)](compose.yaml)
+[![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white&style=for-the-badge)](compose.yaml)
+
+</div>
 
 A small but complete coffee & tea e-shop built with **Symfony 7.4 / PHP 8.4**.
 It has a product catalogue with a price list, a session cart, an order and
