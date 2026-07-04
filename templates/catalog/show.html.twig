@@ -16,6 +16,11 @@
 
         {% if product.inStock %}
             <p class="text-muted">{{ product.stock }} in stock</p>
+            <form method="post" action="{{ path('app_cart_add', { id: product.id }) }}" class="add-to-cart">
+                <input type="hidden" name="_token" value="{{ csrf_token('cart_add_' ~ product.id) }}">
+                <input type="number" name="quantity" value="1" min="1" max="{{ product.stock }}" class="qty-input">
+                <button type="submit" class="btn">Add to cart</button>
+            </form>
         {% else %}
             <p class="out-of-stock">Currently out of stock</p>
         {% endif %}

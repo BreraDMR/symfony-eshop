@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your cart — Beans &amp; Leaves{% endblock %}
+
+{% block body %}
+    <h1>Your cart</h1>
+
+    {% if cart.empty %}
+        <p class="text-muted">Your cart is empty.</p>
+        <p><a class="btn" href="{{ path('app_catalog_index') }}">Browse the shop</a></p>
+    {% else %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items %}
+                    <tr>
+                        <td>
+                            <a href="{{ path('app_catalog_product', { slug: item.product.slug }) }}">
+                                {{ item.product.name }}
+                            </a>
+                        </td>
+                        <td>{{ item.product.price|money }}</td>
+                        <td>
+                            <form method="post" action="{{ path('app_cart_update', { id: item.product.id }) }}" class="inline-form">
+                                <input type="hidden" name="_token" value="{{ csrf_token('cart_update_' ~ item.product.id) }}">
+                                <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" class="qty-input">
+                                <button type="submit" class="btn btn-secondary">Update</button>
+                            </form>
+                        </td>
+                        <td>{{ item.subtotal|money }}</td>
+                        <td>
+                            <form method="post" action="{{ path('app_cart_remove', { id: item.product.id }) }}" class="inline-form">
+                                <input type="hidden" name="_token" value="{{ csrf_token('cart_remove_' ~ item.product.id) }}">
+                                <button type="submit" class="btn btn-secondary">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th colspan="3" style="text-align:right">Total</th>
+                    <th>{{ cart.total|money }}</th>
+                    <th></th>
+                </tr>
+            </tfoot>
+        </table>
+
+        <p style="margin-top:1.5rem">
+            <a class="btn-secondary btn" href="{{ path('app_catalog_index') }}">Continue shopping</a>
+        </p>
+    {% endif %}
+{% endblock %}
