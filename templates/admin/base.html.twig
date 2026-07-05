@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block nav_extra %}
+    <a href="{{ path('app_admin_dashboard') }}">Admin</a>
+{% endblock %}
+
+{% block body %}
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <nav>
+                <a href="{{ path('app_admin_dashboard') }}">Dashboard</a>
+                <a href="{{ path('app_admin_product_index') }}">Products</a>
+                <a href="{{ path('app_admin_order_index') }}">Orders</a>
+                <a href="{{ path('app_logout') }}">Log out</a>
+            </nav>
+        </aside>
+        <section class="admin-content">
+            {% block admin_body %}{% endblock %}
+        </section>
+    </div>
+{% endblock %}
