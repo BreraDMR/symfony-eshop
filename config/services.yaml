@@ -21,3 +21,16 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Payment\StripePaymentGateway:
+        arguments:
+            $secretKey: '%env(STRIPE_SECRET_KEY)%'
+
+    App\Payment\PaymentGatewayFactory:
+        arguments:
+            $gateway: '%env(PAYMENT_GATEWAY)%'
+
+    # The active gateway is resolved at runtime by the factory, so the rest of
+    # the app only ever depends on the PaymentGatewayInterface abstraction.
+    App\Payment\PaymentGatewayInterface:
+        factory: ['@App\Payment\PaymentGatewayFactory', 'create']
