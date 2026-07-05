@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Payment cancelled — Beans &amp; Leaves{% endblock %}
+
+{% block body %}
+    <div class="payment-box">
+        <h1>Payment cancelled</h1>
+        <p>Your order <strong>{{ order.reference }}</strong> has not been paid.</p>
+        <p class="text-muted">You can try again from your cart whenever you are ready.</p>
+        <p style="margin-top:1.5rem"><a class="btn" href="{{ path('app_catalog_index') }}">Back to shop</a></p>
+    </div>
+{% endblock %}

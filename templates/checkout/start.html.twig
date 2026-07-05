@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Checkout — Beans &amp; Leaves{% endblock %}
+
+{% block body %}
+    <h1>Checkout</h1>
+
+    <div class="checkout-layout">
+        <section class="checkout-form">
+            <h2>Your details</h2>
+            {{ form_start(form) }}
+                {{ form_row(form.customerName) }}
+                {{ form_row(form.customerEmail) }}
+                {{ form_row(form.shippingAddress) }}
+                <button type="submit" class="btn">Place order &amp; pay</button>
+            {{ form_end(form) }}
+        </section>
+
+        <aside class="checkout-summary">
+            <h2>Order summary</h2>
+            <table class="table">
+                <tbody>
+                    {% for item in cart.items %}
+                        <tr>
+                            <td>{{ item.product.name }} &times; {{ item.quantity }}</td>
+                            <td>{{ item.subtotal|money }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>Total</th>
+                        <th>{{ cart.total|money }}</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </aside>
+    </div>
+{% endblock %}
