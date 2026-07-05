@@ -1,0 +1,4 @@
+# Product images uploaded through the admin at runtime are not versioned.
+# The demo images referenced by the fixtures are tracked explicitly (git add -f).
+/*
+!.gitignore

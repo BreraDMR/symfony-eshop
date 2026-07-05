@@ -6,6 +6,11 @@
         {{ form_row(form.price) }}
         {{ form_row(form.stock) }}
         {{ form_row(form.description) }}
+        {% if product is defined and product.imageFilename %}
+            <p class="text-muted" style="margin-bottom:0.35rem">Current image:</p>
+            <img class="admin-thumb" style="width:120px;height:80px" src="{{ asset('images/products/' ~ product.imageFilename) }}" alt="">
+        {% endif %}
+        {{ form_row(form.imageFile) }}
         {{ form_row(form.active) }}
         <button type="submit" class="btn">{{ button_label|default('Save') }}</button>
         <a class="btn btn-secondary" href="{{ path('app_admin_product_index') }}">Cancel</a>

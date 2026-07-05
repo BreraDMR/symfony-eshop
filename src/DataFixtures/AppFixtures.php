@@ -55,6 +55,7 @@ class AppFixtures extends Fixture
             $product = new Product($name, $slug, Money::fromMajorUnits($price), $category);
             $product->setStock($stock);
             $product->setDescription($description);
+            $product->setImageFilename($slug.'.jpg');
 
             $manager->persist($product);
         }

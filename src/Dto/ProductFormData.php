@@ -6,6 +6,7 @@ namespace App\Dto;
 
 use App\Entity\Category;
 use App\Entity\Product;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
@@ -36,6 +37,9 @@ class ProductFormData
 
     #[Assert\NotNull]
     public ?Category $category = null;
+
+    #[Assert\Image(maxSize: '4M')]
+    public ?UploadedFile $imageFile = null;
 
     public static function fromProduct(Product $product): self
     {
