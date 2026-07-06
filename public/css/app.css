@@ -182,14 +182,21 @@ main.container {
 }
 
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     padding: 0.55rem 1rem;
     border-radius: 6px;
-    border: none;
+    /* transparent 1px border so a plain .btn and a bordered .btn-secondary end
+       up exactly the same height regardless of the element (button vs a). */
+    border: 1px solid transparent;
     background: var(--accent);
     color: #fff;
     cursor: pointer;
     font-size: 0.95rem;
+    line-height: 1.2;
+    text-decoration: none;
+    vertical-align: middle;
 }
 
 .btn:hover {
