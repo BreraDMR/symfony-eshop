@@ -1,0 +1,62 @@
+name: CI
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+
+jobs:
+    tests:
+        name: PHPUnit
+        runs-on: ubuntu-latest
+
+        services:
+            postgres:
+                image: postgres:16-alpine
+                env:
+                    POSTGRES_DB: eshop
+                    POSTGRES_USER: eshop
+                    POSTGRES_PASSWORD: eshop
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd "pg_isready -U eshop"
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
+
+        env:
+            # Point Doctrine at the CI Postgres service; the rest of the env
+            # comes from .env / .env.test (in-memory messenger, null mailer,
+            # array cache, search indexing off) so no other services are needed.
+            DATABASE_URL: "postgresql://eshop:eshop@127.0.0.1:5432/eshop?serverVersion=16&charset=utf8"
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Setup PHP
+              uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.4'
+                  extensions: pdo_pgsql, intl, zip, redis, amqp
+                  coverage: none
+
+            - name: Validate composer.json
+              run: composer validate --strict
+
+            - name: Cache Composer packages
+              uses: actions/cache@v4
+              with:
+                  path: ~/.cache/composer
+                  key: composer-${{ hashFiles('composer.lock') }}
+                  restore-keys: composer-
+
+            - name: Install dependencies
+              run: composer install --no-interaction --no-progress --prefer-dist
+
+            - name: Create the test database schema
+              run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+            - name: Run the test suite
+              run: php bin/phpunit
