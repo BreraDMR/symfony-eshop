@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
+use App\Catalog\ProductCatalog;
 use App\Dto\ProductFormData;
 use App\Entity\Product;
 use App\Form\ProductType;
@@ -27,7 +28,7 @@ class AdminProductController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProductManager $productManager, EntityManagerInterface $em): Response
+    public function new(Request $request, ProductManager $productManager, EntityManagerInterface $em, ProductCatalog $catalog): Response
     {
         $form = $this->createForm(ProductType::class, new ProductFormData());
         $form->handleRequest($request);
@@ -36,6 +37,7 @@ class AdminProductController extends AbstractController
             $product = $productManager->create($form->getData());
             $em->persist($product);
             $em->flush();
+            $catalog->invalidate();
 
             $this->addFlash('success', 'Product created.');
 
@@ -48,7 +50,7 @@ class AdminProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_admin_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Product $product, Request $request, ProductManager $productManager, EntityManagerInterface $em): Response
+    public function edit(Product $product, Request $request, ProductManager $productManager, EntityManagerInterface $em, ProductCatalog $catalog): Response
     {
         $form = $this->createForm(ProductType::class, ProductFormData::fromProduct($product));
         $form->handleRequest($request);
@@ -56,6 +58,7 @@ class AdminProductController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $productManager->update($product, $form->getData());
             $em->flush();
+            $catalog->invalidate();
 
             $this->addFlash('success', 'Product updated.');
 
@@ -69,7 +72,7 @@ class AdminProductController extends AbstractController
     }
 
     #[Route('/{id}/delete', name: 'app_admin_product_delete', methods: ['POST'])]
-    public function delete(Product $product, Request $request, EntityManagerInterface $em): Response
+    public function delete(Product $product, Request $request, EntityManagerInterface $em, ProductCatalog $catalog): Response
     {
         if (!$this->isCsrfTokenValid('delete_product_'.$product->getId(), (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Invalid CSRF token.');
@@ -77,6 +80,7 @@ class AdminProductController extends AbstractController
 
         $em->remove($product);
         $em->flush();
+        $catalog->invalidate();
 
         $this->addFlash('success', 'Product deleted.');
 
