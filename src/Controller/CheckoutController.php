@@ -8,6 +8,7 @@ use App\Cart\CartService;
 use App\Dto\CheckoutDetails;
 use App\Entity\Order;
 use App\Form\CheckoutType;
+use App\Message\OrderConfirmationEmail;
 use App\Order\OrderFactory;
 use App\Payment\PaymentGatewayInterface;
 use App\Payment\StripePaymentGateway;
@@ -16,6 +17,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -87,6 +89,7 @@ class CheckoutController extends AbstractController
         Request $request,
         OrderRepository $orders,
         EntityManagerInterface $em,
+        MessageBusInterface $bus,
     ): Response {
         if (!$this->isCsrfTokenValid('checkout_confirm_'.$reference, (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Invalid CSRF token.');
@@ -97,6 +100,7 @@ class CheckoutController extends AbstractController
         if (!$order->getStatus()->isPaid()) {
             $order->markAsPaid('FAKE-'.$reference);
             $em->flush();
+            $bus->dispatch(new OrderConfirmationEmail($order->getId()));
         }
 
         return $this->redirectToRoute('app_checkout_success', ['reference' => $reference]);
@@ -109,6 +113,7 @@ class CheckoutController extends AbstractController
         OrderRepository $orders,
         PaymentGatewayInterface $gateway,
         EntityManagerInterface $em,
+        MessageBusInterface $bus,
     ): Response {
         $order = $this->findOrder($reference, $orders);
 
@@ -118,6 +123,7 @@ class CheckoutController extends AbstractController
             if ($gateway->isSessionPaid($sessionId)) {
                 $order->markAsPaid($sessionId);
                 $em->flush();
+                $bus->dispatch(new OrderConfirmationEmail($order->getId()));
             }
         }
 
