@@ -1,5 +1,7 @@
 # Beans & Leaves — Symfony e-shop
 
+[![CI](https://github.com/BreraDMR/symfony-eshop/actions/workflows/ci.yml/badge.svg)](https://github.com/BreraDMR/symfony-eshop/actions/workflows/ci.yml)
+
 A small but complete coffee & tea e-shop built with **Symfony 7.4 / PHP 8.4**.
 It has a product catalogue with a price list, a session cart, an order and
 checkout flow with a pluggable payment gateway, and an admin area. On top of
