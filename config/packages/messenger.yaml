@@ -1,0 +1,23 @@
+framework:
+    messenger:
+        failure_transport: failed
+
+        transports:
+            async:
+                dsn: '%env(MESSENGER_TRANSPORT_DSN)%'
+                retry_strategy:
+                    max_retries: 3
+                    delay: 2000
+                    multiplier: 2
+            failed: 'doctrine://default?queue_name=failed'
+
+        routing:
+            # Messages are routed to the async transport as they are added.
+
+when@test:
+    framework:
+        messenger:
+            transports:
+                # Keep handlers synchronous in tests so no broker is required.
+                async: 'in-memory://'
+                failed: 'in-memory://'
