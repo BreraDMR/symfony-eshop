@@ -1,4 +1,5 @@
 :root {
+    color-scheme: light dark;
     --bg: #faf8f5;
     --text: #2b2620;
     --muted: #7a7268;
@@ -6,6 +7,18 @@
     --accent-dark: #6d4620;
     --border: #e7e0d6;
     --card: #ffffff;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #17130f;
+        --text: #ece5db;
+        --muted: #a89e90;
+        --accent: #cf8f52;
+        --accent-dark: #e0a468;
+        --border: #37302a;
+        --card: #221c17;
+    }
 }
 
 * {
@@ -402,4 +415,40 @@ table.table td {
     object-fit: cover;
     border-radius: 4px;
     display: block;
+}
+
+/* Form controls follow the theme instead of the browser default, so the
+   search box (and every other input) stays readable in dark and light mode. */
+input,
+textarea,
+select {
+    font: inherit;
+    color: var(--text);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.5rem 0.65rem;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: 1px;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--muted);
+}
+
+.search-form {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.search-form input[type="search"] {
+    flex: 1 1 auto;
+    max-width: 360px;
 }
