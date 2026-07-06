@@ -13,6 +13,20 @@ services:
             rabbitmq:
                 condition: service_healthy
 
+    worker:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+        volumes:
+            - ./:/var/www/app:cached
+        command: php bin/console messenger:consume async --time-limit=3600 -v
+        restart: unless-stopped
+        depends_on:
+            database:
+                condition: service_healthy
+            rabbitmq:
+                condition: service_healthy
+
     nginx:
         image: nginx:1.27-alpine
         ports:
