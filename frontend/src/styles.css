@@ -19,3 +19,125 @@ body {
     margin: 0 auto;
     padding: 1.5rem 1rem 3rem;
 }
+
+.app__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+}
+
+.app__header h1 {
+    margin: 0;
+    font-size: 1.6rem;
+}
+
+.app__search {
+    flex: 1 1 240px;
+    max-width: 320px;
+    padding: 0.55rem 0.75rem;
+    border: 1px solid #d8cfc2;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: #fff;
+}
+
+.filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.filter__item {
+    padding: 0.4rem 0.9rem;
+    border: 1px solid #d8cfc2;
+    border-radius: 999px;
+    background: #fff;
+    color: inherit;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.filter__item--active {
+    background: #6f4e37;
+    border-color: #6f4e37;
+    color: #fff;
+}
+
+.filter__item:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.25rem;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #ece5da;
+    border-radius: 12px;
+    padding: 0.75rem;
+}
+
+.card__thumb {
+    aspect-ratio: 3 / 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #f2ece3;
+    margin-bottom: 0.6rem;
+}
+
+.card__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card__placeholder {
+    font-size: 2rem;
+}
+
+.card__name {
+    margin: 0 0 0.25rem;
+    font-size: 1rem;
+}
+
+.card__category {
+    margin: 0;
+    color: #8a7d6d;
+    font-size: 0.85rem;
+}
+
+.card__price {
+    margin: 0.4rem 0 0.3rem;
+    font-weight: 600;
+}
+
+.card__stock {
+    font-size: 0.8rem;
+    color: #3f7d52;
+}
+
+.card__stock--out {
+    color: #b0453b;
+}
+
+.notice {
+    padding: 0.75rem 0;
+    color: #8a7d6d;
+}
+
+.notice--error {
+    color: #b0453b;
+}
