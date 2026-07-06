@@ -141,3 +141,22 @@ body {
 .notice--error {
     color: #b0453b;
 }
+
+.app__note {
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #e3d9cb;
+    color: #8a7d6d;
+    font-size: 0.9rem;
+}
+
+.app__note p {
+    margin: 0 0 0.5rem;
+}
+
+.app__note code {
+    background: rgba(111, 78, 55, 0.12);
+    padding: 0.05rem 0.35rem;
+    border-radius: 4px;
+}
+

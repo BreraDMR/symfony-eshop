@@ -74,6 +74,17 @@ export default function App() {
                     <ProductCard key={product.slug} product={product} />
                 ))}
             </section>
+
+            <footer className="app__note">
+                <p>
+                    This is a React single-page <strong>demo</strong> of the shop. It renders the same
+                    catalogue as the main site, but as a client-side app that reads the JSON API
+                    (<code>/api/products</code>, <code>/api/categories</code>) instead of server-rendered pages.
+                </p>
+                <p>
+                    <a href="/">← Back to the main store</a>
+                </p>
+            </footer>
         </main>
     )
 }
