@@ -45,7 +45,7 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     /**
-     * Naive database search, later replaced by Elasticsearch on the storefront.
+     * Database search used as a fallback when Elasticsearch is unavailable.
      *
      * @return Product[]
      */
@@ -56,6 +56,41 @@ class ProductRepository extends ServiceEntityRepository
             ->setParameter('term', '%'.strtolower($term).'%')
             ->getQuery()
             ->getResult();
+    }
+
+    /**
+     * Loads active products for the given ids, preserving the order of $ids so
+     * the relevance ranking returned by Elasticsearch is kept.
+     *
+     * @param int[] $ids
+     *
+     * @return Product[]
+     */
+    public function findActiveByIds(array $ids): array
+    {
+        if ($ids === []) {
+            return [];
+        }
+
+        $products = $this->activeQueryBuilder()
+            ->andWhere('p.id IN (:ids)')
+            ->setParameter('ids', $ids)
+            ->getQuery()
+            ->getResult();
+
+        $byId = [];
+        foreach ($products as $product) {
+            $byId[$product->getId()] = $product;
+        }
+
+        $ordered = [];
+        foreach ($ids as $id) {
+            if (isset($byId[$id])) {
+                $ordered[] = $byId[$id];
+            }
+        }
+
+        return $ordered;
     }
 
     private function activeQueryBuilder(): QueryBuilder
