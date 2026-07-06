@@ -14,6 +14,10 @@
         <header class="site-header">
             <div class="container header-inner">
                 <a class="brand" href="{{ path('app_catalog_index') }}">☕ Beans &amp; Leaves</a>
+                <form class="header-search" method="get" action="{{ path('app_catalog_search') }}" role="search">
+                    <input type="search" name="q" value="{{ app.request.query.get('q') }}"
+                           placeholder="Search products…" aria-label="Search products">
+                </form>
                 <nav class="main-nav">
                     <a href="{{ path('app_catalog_index') }}">Shop</a>
                     <a href="/spa/">React demo</a>
