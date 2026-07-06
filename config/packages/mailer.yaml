@@ -1,0 +1,6 @@
+framework:
+    mailer:
+        dsn: '%env(MAILER_DSN)%'
+        # Applied to every message that does not set its own sender.
+        headers:
+            From: 'Coffee Shop <shop@example.com>'
