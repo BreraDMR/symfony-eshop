@@ -12,7 +12,7 @@ framework:
             failed: 'doctrine://default?queue_name=failed'
 
         routing:
-            # Messages are routed to the async transport as they are added.
+            App\Message\OrderConfirmationEmail: async
 
 when@test:
     framework:
