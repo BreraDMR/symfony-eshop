@@ -37,6 +37,9 @@ services:
         arguments:
             $enabled: '%env(bool:SEARCH_INDEXING_ENABLED)%'
 
+    # The storefront search uses the Elasticsearch gateway implementation.
+    App\Search\ProductSearchGateway: '@App\Search\ElasticsearchProductSearchGateway'
+
     App\Payment\StripePaymentGateway:
         arguments:
             $secretKey: '%env(STRIPE_SECRET_KEY)%'
