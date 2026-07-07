@@ -12,6 +12,21 @@ talks to a JSON API.
 The goal is a clean, readable backend with sensible boundaries, that is easy to
 test and runs entirely from Docker.
 
+## Live demo
+
+A temporary demo is running here:
+
+**https://footer-phoenix-nemesis.ngrok-free.dev**
+
+- Storefront: the home page, product pages, cart and checkout.
+- React SPA: [`/spa/`](https://footer-phoenix-nemesis.ngrok-free.dev/spa/)
+- Search: [`/search`](https://footer-phoenix-nemesis.ngrok-free.dev/search)
+- Admin: [`/admin`](https://footer-phoenix-nemesis.ngrok-free.dev/admin) — `admin@example.com` / `Beans2026Admin`
+
+> The demo is tunnelled through ngrok's free tier, so the first visit shows a
+> one-click "Visit Site" warning page. It may be offline outside review hours —
+> everything also runs locally with the steps below.
+
 ## Features
 
 - **Catalogue** — products grouped by category, product pages, images.
