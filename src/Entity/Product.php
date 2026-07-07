@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Inventory\InsufficientStockException;
 use App\Repository\ProductRepository;
 use App\ValueObject\Money;
 use Doctrine\ORM\Mapping as ORM;
@@ -126,6 +127,24 @@ class Product
     public function isInStock(): bool
     {
         return $this->stock > 0;
+    }
+
+    /**
+     * Take a quantity out of stock, e.g. when an order is paid.
+     *
+     * @throws InsufficientStockException when fewer units are available
+     */
+    public function reduceStock(int $quantity): void
+    {
+        if ($quantity < 1) {
+            throw new \InvalidArgumentException('Quantity to reduce must be at least 1.');
+        }
+
+        if ($quantity > $this->stock) {
+            throw InsufficientStockException::forProduct($this->name, $this->stock, $quantity);
+        }
+
+        $this->stock -= $quantity;
     }
 
     public function isActive(): bool

@@ -8,6 +8,8 @@ use App\Cart\CartService;
 use App\Dto\CheckoutDetails;
 use App\Entity\Order;
 use App\Form\CheckoutType;
+use App\Inventory\InsufficientStockException;
+use App\Inventory\StockManager;
 use App\Message\OrderConfirmationEmail;
 use App\Order\OrderFactory;
 use App\Payment\PaymentGatewayInterface;
@@ -90,6 +92,7 @@ class CheckoutController extends AbstractController
         OrderRepository $orders,
         EntityManagerInterface $em,
         MessageBusInterface $bus,
+        StockManager $stock,
     ): Response {
         if (!$this->isCsrfTokenValid('checkout_confirm_'.$reference, (string) $request->request->get('_token'))) {
             throw $this->createAccessDeniedException('Invalid CSRF token.');
@@ -98,9 +101,13 @@ class CheckoutController extends AbstractController
         $order = $this->findOrder($reference, $orders);
 
         if (!$order->getStatus()->isPaid()) {
-            $order->markAsPaid('FAKE-'.$reference);
-            $em->flush();
-            $bus->dispatch(new OrderConfirmationEmail($order->getId()));
+            try {
+                $this->settlePayment($order, 'FAKE-'.$reference, $em, $bus, $stock);
+            } catch (InsufficientStockException) {
+                $this->addFlash('error', 'Sorry, one of the products just went out of stock. Your card was not charged.');
+
+                return $this->redirectToRoute('app_checkout_cancel', ['reference' => $reference]);
+            }
         }
 
         return $this->redirectToRoute('app_checkout_success', ['reference' => $reference]);
@@ -114,6 +121,7 @@ class CheckoutController extends AbstractController
         PaymentGatewayInterface $gateway,
         EntityManagerInterface $em,
         MessageBusInterface $bus,
+        StockManager $stock,
     ): Response {
         $order = $this->findOrder($reference, $orders);
 
@@ -121,15 +129,39 @@ class CheckoutController extends AbstractController
         $sessionId = $request->query->get('session_id');
         if (!$order->getStatus()->isPaid() && $sessionId && $gateway instanceof StripePaymentGateway) {
             if ($gateway->isSessionPaid($sessionId)) {
-                $order->markAsPaid($sessionId);
-                $em->flush();
-                $bus->dispatch(new OrderConfirmationEmail($order->getId()));
+                try {
+                    $this->settlePayment($order, $sessionId, $em, $bus, $stock);
+                } catch (InsufficientStockException) {
+                    $this->addFlash('error', 'Your payment went through, but a product sold out meanwhile. Our team will contact you.');
+                }
             }
         }
 
         return $this->render('checkout/success.html.twig', [
             'order' => $order,
         ]);
+    }
+
+    /**
+     * Reduce stock and mark the order paid in one transaction, then queue the
+     * confirmation email. Kept together so stock is never taken without the
+     * order being marked paid (and vice versa).
+     *
+     * @throws InsufficientStockException if a line can no longer be fulfilled
+     */
+    private function settlePayment(
+        Order $order,
+        string $paymentReference,
+        EntityManagerInterface $em,
+        MessageBusInterface $bus,
+        StockManager $stock,
+    ): void {
+        $em->wrapInTransaction(function () use ($order, $paymentReference, $stock): void {
+            $stock->reduceForOrder($order);
+            $order->markAsPaid($paymentReference);
+        });
+
+        $bus->dispatch(new OrderConfirmationEmail($order->getId()));
     }
 
     #[Route('/{reference}/cancel', name: 'app_checkout_cancel', methods: ['GET'])]
