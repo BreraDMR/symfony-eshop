@@ -32,7 +32,8 @@
                             <form method="post" action="{{ path('app_cart_update', { id: item.product.id }) }}" class="inline-form js-cart-update">
                                 <input type="hidden" name="_token" value="{{ csrf_token('cart_update_' ~ item.product.id) }}">
                                 <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" class="qty-input">
-                                <button type="submit" class="btn btn-secondary js-cart-update-submit">Update</button>
+                                {# Only shown when JavaScript is off; otherwise the quantity auto-updates. #}
+                                <noscript><button type="submit" class="btn btn-secondary">Update</button></noscript>
                             </form>
                         </td>
                         <td data-label="Subtotal" data-cart-subtotal>{{ item.subtotal|money }}</td>

@@ -44,7 +44,6 @@
 
     document.querySelectorAll('form.js-cart-update').forEach(function (form) {
         var input = form.querySelector('input[name="quantity"]');
-        var button = form.querySelector('.js-cart-update-submit');
         var row = form.closest('tr');
         var subtotalEl = row ? row.querySelector('[data-cart-subtotal]') : null;
         var timer = null;
@@ -53,7 +52,8 @@
             return;
         }
 
-        // Drive the update from the field itself, so the button is redundant.
+        // The submit button only exists inside <noscript>, so with JS running
+        // there is nothing to press: the field itself drives the update.
         form.addEventListener('submit', function (event) {
             event.preventDefault();
         });
@@ -79,12 +79,6 @@
                 });
             }, 300);
         });
-
-        // Only hide the button once the field is wired, so a failed script load
-        // still leaves a usable form.
-        if (button) {
-            button.hidden = true;
-        }
     });
 
     document.querySelectorAll('form.js-cart-remove').forEach(function (form) {
