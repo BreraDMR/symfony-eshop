@@ -29,15 +29,15 @@
                         </td>
                         <td data-label="Price">{{ item.product.price|money }}</td>
                         <td data-label="Quantity">
-                            <form method="post" action="{{ path('app_cart_update', { id: item.product.id }) }}" class="inline-form">
+                            <form method="post" action="{{ path('app_cart_update', { id: item.product.id }) }}" class="inline-form js-cart-update">
                                 <input type="hidden" name="_token" value="{{ csrf_token('cart_update_' ~ item.product.id) }}">
                                 <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.product.stock }}" class="qty-input">
-                                <button type="submit" class="btn btn-secondary">Update</button>
+                                <button type="submit" class="btn btn-secondary js-cart-update-submit">Update</button>
                             </form>
                         </td>
-                        <td data-label="Subtotal">{{ item.subtotal|money }}</td>
+                        <td data-label="Subtotal" data-cart-subtotal>{{ item.subtotal|money }}</td>
                         <td data-label="">
-                            <form method="post" action="{{ path('app_cart_remove', { id: item.product.id }) }}" class="inline-form">
+                            <form method="post" action="{{ path('app_cart_remove', { id: item.product.id }) }}" class="inline-form js-cart-remove">
                                 <input type="hidden" name="_token" value="{{ csrf_token('cart_remove_' ~ item.product.id) }}">
                                 <button type="submit" class="btn btn-secondary">Remove</button>
                             </form>
@@ -48,7 +48,7 @@
             <tfoot>
                 <tr>
                     <th colspan="3" style="text-align:right">Total</th>
-                    <th>{{ cart.total|money }}</th>
+                    <th data-cart-total>{{ cart.total|money }}</th>
                     <th></th>
                 </tr>
             </tfoot>
@@ -59,4 +59,11 @@
             <a class="btn" href="{{ path('app_checkout_start') }}">Proceed to checkout</a>
         </div>
     {% endif %}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {# Progressive enhancement: recompute totals in place on quantity change.
+       Without JS the form + Update button above keep working. #}
+    <script src="{{ asset('js/cart.js') }}" defer></script>
 {% endblock %}
