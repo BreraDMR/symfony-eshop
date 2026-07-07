@@ -1,8 +1,14 @@
 # React storefront
 
 A small React (Vite) single-page app that renders the shop catalog from the
-JSON API exposed by the Symfony application (`/api/products`, `/api/categories`).
-It is an alternative, client-rendered view of the same data as the Twig pages.
+JSON API exposed by the Symfony application (`/api/products`,
+`/api/products/{slug}`, `/api/categories`). It is an alternative, client-rendered
+view of the same data as the Twig pages.
+
+The catalogue supports category filtering and search, and each card opens a
+client-side product page (`#/product/<slug>`) via a tiny hash router. Cart and
+checkout intentionally stay in the server-rendered store, so the product page's
+buy action links back there — the SPA itself is a read-only view of the API.
 
 ## Development
 
