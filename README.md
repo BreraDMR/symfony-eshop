@@ -127,3 +127,9 @@ nor Elasticsearch running.
 
 `PAYMENT_GATEWAY=fake` (default) keeps checkout fully offline. Set
 `PAYMENT_GATEWAY=stripe` and `STRIPE_SECRET_KEY=...` to use Stripe Checkout.
+
+## License
+
+Licensed under [PolyForm Noncommercial 1.0.0](LICENSE) — free for personal,
+educational, and other noncommercial use. Commercial use requires a separate
+license; contact damir.brera.eb@gmail.com.
